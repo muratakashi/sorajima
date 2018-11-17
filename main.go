@@ -3,11 +3,12 @@ package main
 import (
 	"log"
 	"net/http"
-	"sandbox/sorajima/workhourmonthly"
+
+	"github.com/sorajima/workhour/monthly"
 )
 
 func main() {
-	rootURI := "/sorajima/v1"
-	http.HandleFunc(rootURI+"/workhour/monthly", workhourmonthly.HTTPMethodHandler)
+	rootURI := "/sorajima/api/v1"
+	http.HandleFunc(rootURI+"/workhour/monthly", monthly.HTTPMethodHandler)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }

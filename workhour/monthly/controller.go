@@ -1,4 +1,4 @@
-package workhourmonthly
+package monthly
 
 import (
 	"log"

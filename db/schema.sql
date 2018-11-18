@@ -6,9 +6,7 @@ CREATE TABLE public.user
   first_name           character varying(255)      NOT NULL,
   last_name            character varying(255)      NOT NULL,
   created_at           timestamp without time zone NOT NULL,
-  created_by           character varying(255)      NOT NULL,
   updated_at           timestamp without time zone NOT NULL,
-  updated_by           character varying(255)      NOT NULL,
   CONSTRAINT users_pkey PRIMARY KEY (id),
   CONSTRAINT users_unique_key UNIQUE (email)
 )
@@ -26,9 +24,7 @@ COMMENT ON COLUMN public.user.encrypted_password IS 'パスワード';
 COMMENT ON COLUMN public.user.first_name         IS '姓';
 COMMENT ON COLUMN public.user.last_name          IS '名';
 COMMENT ON COLUMN public.user.created_at         IS '登録日時';
-COMMENT ON COLUMN public.user.created_by         IS '登録者';
 COMMENT ON COLUMN public.user.updated_at         IS '更新日時';
-COMMENT ON COLUMN public.user.updated_by         IS '更新者';
 
 CREATE TABLE public.workhour
 (
@@ -38,9 +34,7 @@ CREATE TABLE public.workhour
   hello      timestamp without time zone NOT NULL,
   goodbye    timestamp without time zone NOT NULL,
   created_at timestamp without time zone NOT NULL,
-  created_by character varying(255)      NOT NULL,
   updated_at timestamp without time zone NOT NULL,
-  updated_by character varying(255)      NOT NULL,
   CONSTRAINT hours_pkey PRIMARY KEY (id),
   CONSTRAINT hours_unique_key UNIQUE (user_id, work_day)
 )
@@ -58,7 +52,4 @@ COMMENT ON COLUMN public.workhour.work_day   IS '出社日';
 COMMENT ON COLUMN public.workhour.hello      IS '出社時間';
 COMMENT ON COLUMN public.workhour.goodbye    IS '退社時間';
 COMMENT ON COLUMN public.workhour.created_at IS '登録日時';
-COMMENT ON COLUMN public.workhour.created_by IS '登録者';
 COMMENT ON COLUMN public.workhour.updated_at IS '更新日時';
-COMMENT ON COLUMN public.workhour.updated_by IS '更新者';
-

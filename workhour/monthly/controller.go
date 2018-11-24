@@ -3,13 +3,16 @@ package monthly
 import (
 	"log"
 	"net/http"
+	"time"
 )
 
 // HTTPMethodHandler HttpMethodに対する処理分岐を行う
 func HTTPMethodHandler(w http.ResponseWriter, req *http.Request) {
 	log.Println("Request Method  : ", req.Method)
 	log.Println("Request URL     : ", req.URL)
+	log.Println("Request Proto   : ", req.Proto)
 
+	// CORF対応
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
 	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE")
@@ -30,16 +33,41 @@ func HTTPMethodHandler(w http.ResponseWriter, req *http.Request) {
 // Request
 //   Method: Get
 // Query Parameter
+//   user_id: ユーザーID
 //   year: yyyy
 //   month: mm
 // Response
 //   Content-Type : application/json
 func getHandler(w http.ResponseWriter, req *http.Request) {
-	if req.Method != http.MethodGet {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+	// クエリパラメータを取得
+	param, paramerrs := unMarshalGetQueryParam(req.URL.Query())
+	if paramerrs != nil {
+		b, err := marshal(&paramerrs)
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(b)
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	content, err := getMonthly(param.userID, time.Date(param.year, param.month, 1, 0, 0, 0, 0, time.Local),
+		time.Date(param.year, param.month, 30, 23, 59, 59, 0, time.Local))
+	if err != nil {
+		log.Println(err)
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	if content == nil {
+		w.WriteHeader(http.StatusNoContent)
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
+	w.Write(content)
 	w.WriteHeader(http.StatusOK)
 }

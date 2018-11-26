@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"net/url"
 	"strconv"
-	"time"
 )
 
 type errorStruct struct {
@@ -15,7 +14,7 @@ type errorStruct struct {
 type getQueryParamStruct struct {
 	userID int
 	year   int
-	month  time.Month
+	month  int
 }
 
 func marshal(v interface{}) (b []byte, err error) {
@@ -46,8 +45,7 @@ func unMarshalGetQueryParam(values url.Values) (param getQueryParamStruct, error
 		errors = append(errors, paramerr)
 	}
 
-	var wMonth int
-	wMonth, err = strconv.Atoi(month)
+	param.month, err = strconv.Atoi(month)
 	if err != nil {
 		paramerr := errorStruct{
 			Key:   "month",
@@ -55,14 +53,12 @@ func unMarshalGetQueryParam(values url.Values) (param getQueryParamStruct, error
 		}
 		errors = append(errors, paramerr)
 	} else {
-		if wMonth < 1 && wMonth > 13 {
+		if param.month < 1 && param.month > 13 {
 			paramerr := errorStruct{
 				Key:   "month",
 				Value: "月が不正です",
 			}
 			errors = append(errors, paramerr)
-		} else {
-			param.month = time.Month(wMonth)
 		}
 	}
 

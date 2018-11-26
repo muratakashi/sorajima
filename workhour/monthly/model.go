@@ -10,8 +10,8 @@ import (
 
 // WorkHourStruct 勤務時間情報
 type WorkHourStruct struct {
-	ID        int64  `json:"id"`
-	UserID    int64  `json:"user_id"`
+	ID        int    `json:"id"`
+	UserID    int    `json:"user_id"`
 	WorkDay   string `json:"work_day"`
 	Hello     string `json:"hello"`
 	Goodbye   string `json:"goodbye"`

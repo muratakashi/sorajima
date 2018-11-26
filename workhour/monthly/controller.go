@@ -3,7 +3,6 @@ package monthly
 import (
 	"log"
 	"net/http"
-	"time"
 )
 
 // HTTPMethodHandler HttpMethodに対する処理分岐を行う
@@ -54,8 +53,7 @@ func getHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	content, err := getMonthly(param.userID, time.Date(param.year, param.month, 1, 0, 0, 0, 0, time.Local),
-		time.Date(param.year, param.month, 30, 23, 59, 59, 0, time.Local))
+	content, err := getMonthly(param.userID, param.year, param.month)
 	if err != nil {
 		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)

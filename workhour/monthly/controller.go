@@ -43,6 +43,7 @@ func getHandler(w http.ResponseWriter, req *http.Request) {
 	if paramerrs != nil {
 		b, err := marshal(&paramerrs)
 		if err != nil {
+			log.Println(err)
 			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}

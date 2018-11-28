@@ -22,7 +22,7 @@ func getMonthly(userID int, year int, month int) (b []byte, err error) {
 		var workhour = WorkHourStruct{
 			ID:        -1,
 			UserID:    userID,
-			WorkDay:   date.Format("2006/01/02"),
+			WorkDay:   date.Format("2006-01-02"),
 			Hello:     "",
 			Goodbye:   "",
 			CreatedAt: "",

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	rootURI := "/sorajima/api/v1"
-	http.HandleFunc(rootURI+"/workhour/monthly", monthly.HTTPMethodHandler)
+	rootURI := "/sorajima/api"
+	http.HandleFunc(rootURI+"/v1/workhour/monthly", monthly.HTTPMethodHandler)
 	log.Fatal(http.ListenAndServe(":8000", nil))
 }

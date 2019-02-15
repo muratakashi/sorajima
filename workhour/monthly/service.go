@@ -2,6 +2,8 @@ package monthly
 
 import (
 	"time"
+
+	"github.com/sorajima/db/entity"
 )
 
 func getMonthly(userID int, year int, month int) (b []byte, err error) {
@@ -15,11 +17,11 @@ func getMonthly(userID int, year int, month int) (b []byte, err error) {
 	}
 
 	// １月分の情報を作成
-	var monthlyWorkHours []WorkHourStruct
+	var monthlyWorkHours []entity.WorkHourStruct
 	var date time.Time
 	for i := 1; i < dateTo.Day(); i++ {
 		date = time.Date(year, time.Month(month), i, 0, 0, 0, 0, time.Local)
-		var workhour = WorkHourStruct{
+		var workhour = entity.WorkHourStruct{
 			ID:        -1,
 			UserID:    userID,
 			WorkDay:   date.Format("2006-01-02"),

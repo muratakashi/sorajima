@@ -6,18 +6,8 @@ import (
 	"time"
 
 	_ "github.com/lib/pq" // PostgreSQL Driver
+	"github.com/sorajima/db/entity"
 )
-
-// WorkHourStruct 勤務時間情報
-type WorkHourStruct struct {
-	ID        int    `json:"id"`
-	UserID    int    `json:"user_id"`
-	WorkDay   string `json:"work_day"`
-	Hello     string `json:"hello"`
-	Goodbye   string `json:"goodbye"`
-	CreatedAt string `json:"created_at"`
-	UpdatedAt string `json:"updated_at"`
-}
 
 const (
 	dbUser     = "postgres"
@@ -25,7 +15,7 @@ const (
 	dbName     = "ohara"
 )
 
-func findMonthly(userID int, dateFrom time.Time, dateTo time.Time) (workhours []WorkHourStruct, err error) {
+func findMonthly(userID int, dateFrom time.Time, dateTo time.Time) (workhours []entity.WorkHourStruct, err error) {
 	connStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", dbUser, dbPassword, dbName)
 	db, err := sql.Open("postgres", connStr)
 	defer db.Close()
@@ -45,7 +35,7 @@ func findMonthly(userID int, dateFrom time.Time, dateTo time.Time) (workhours []
 	}
 
 	for rows.Next() {
-		var element WorkHourStruct
+		var element entity.WorkHourStruct
 		rows.Scan(&element.ID, &element.UserID, &element.WorkDay, &element.Hello, &element.Goodbye, &element.CreatedAt, &element.UpdatedAt)
 
 		workhours = append(workhours, element)

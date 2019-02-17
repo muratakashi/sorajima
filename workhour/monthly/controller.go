@@ -7,10 +7,6 @@ import (
 
 // HTTPMethodHandler HttpMethodに対する処理分岐を行う
 func HTTPMethodHandler(w http.ResponseWriter, req *http.Request) {
-	log.Println("Request Method  : ", req.Method)
-	log.Println("Request URL     : ", req.URL)
-	log.Println("Request Proto   : ", req.Proto)
-
 	// CORF対応
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")

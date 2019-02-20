@@ -7,8 +7,8 @@ CREATE TABLE public.user
   last_name            character varying(255)      NOT NULL,
   created_at           timestamp without time zone NOT NULL,
   updated_at           timestamp without time zone NOT NULL,
-  CONSTRAINT users_pkey PRIMARY KEY (id),
-  CONSTRAINT users_unique_key UNIQUE (email)
+  CONSTRAINT user_pkey PRIMARY KEY (id),
+  CONSTRAINT user_unique_key UNIQUE (email)
 )
 WITH (
     OIDS = FALSE
@@ -35,8 +35,8 @@ CREATE TABLE public.workhour
   goodbye    timestamp without time zone NOT NULL,
   created_at timestamp without time zone NOT NULL,
   updated_at timestamp without time zone NOT NULL,
-  CONSTRAINT hours_pkey PRIMARY KEY (id),
-  CONSTRAINT hours_unique_key UNIQUE (user_id, work_day)
+  CONSTRAINT workhour_pkey PRIMARY KEY (id),
+  CONSTRAINT workhour_unique_key UNIQUE (user_id, work_day)
 )
 WITH (
     OIDS = FALSE
@@ -53,3 +53,29 @@ COMMENT ON COLUMN public.workhour.hello      IS '出社時間';
 COMMENT ON COLUMN public.workhour.goodbye    IS '退社時間';
 COMMENT ON COLUMN public.workhour.created_at IS '登録日時';
 COMMENT ON COLUMN public.workhour.updated_at IS '更新日時';
+
+CREATE TABLE public.project
+(
+  id         bigserial
+  code       character varying(50) COLLATE pg_catalog."default" NOT NULL,
+  name       character varying(200) COLLATE pg_catalog."default" NOT NULL,
+  created_at timestamp without time zone NOT NULL,
+  updated_at timestamp without time zone NOT NULL,
+  alias_name character varying(100) COLLATE pg_catalog."default" NOT NULL,
+  CONSTRAINT project_pkey PRIMARY KEY (id),
+  CONSTRAINT project_unique_key UNIQUE (code)
+)
+WITH (
+  OIDS = FALSE
+)
+TABLESPACE pg_default;
+
+ALTER TABLE public.project OWNER to postgres;
+
+COMMENT ON TABLE public.project             IS '受託開発、派遣業務をプロジェクト情報として管理';
+COMMENT ON COLUMN public.project.id         IS 'ID';
+COMMENT ON COLUMN public.project.code       IS 'プロジェクトに付与した番号';
+COMMENT ON COLUMN public.project.name       IS 'プロジェクト名';
+COMMENT ON COLUMN public.project.alias_name IS 'プロジェクト通称';
+COMMENT ON COLUMN public.project.created_at IS '登録日時';
+COMMENT ON COLUMN public.project.updated_at IS '更新日時';
